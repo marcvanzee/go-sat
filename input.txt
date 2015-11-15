@@ -1,0 +1,3 @@
+#input
+a b c ~d
+~b c ~d e
