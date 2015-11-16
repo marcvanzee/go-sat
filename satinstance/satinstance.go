@@ -1,13 +1,20 @@
-package main
+package satinstance
 
 import (
 	"bufio"
 	"fmt"
+	"github.com/marcvanzee/satsolver-go/watchlist"
 	"os"
 	"strings"
 )
 
 const NOT = "~"
+
+const (
+	NONE  = -1
+	FALSE = 0
+	TRUE  = 1
+)
 
 type SATInstance struct {
 	Vars      []string
@@ -109,7 +116,7 @@ func (s *SATInstance) AssignmentToString(assignment []int, brief bool, starting_
 	for i, v := range s.Vars {
 		a := assignment[i]
 		if strings.Index(v, starting_with) == 0 {
-			if a == 0 && !brief {
+			if a == FALSE && !brief {
 				literals = append(literals, NOT+v)
 			} else if a == 1 {
 				literals = append(literals, v)
