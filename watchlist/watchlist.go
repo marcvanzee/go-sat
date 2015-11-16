@@ -8,7 +8,7 @@ import (
 
 type Watchlist map[int]([][]int)
 
-func NewWatchlist(s SATInstance) Watchlist {
+func NewWatchlist(s satinstance.SATInstance) Watchlist {
 	var w Watchlist
 	w = make(map[int]([][]int))
 
@@ -19,7 +19,7 @@ func NewWatchlist(s SATInstance) Watchlist {
 	return w
 }
 
-func (w Watchlist) String(s SATInstance) string {
+func (w Watchlist) String(s satinstance.SATInstance) string {
 	ret := ""
 	for l, w2 := range w {
 		lStr := s.LiteralToString(l)
@@ -37,7 +37,7 @@ func (w Watchlist) String(s SATInstance) string {
 // do this by make any clause that is currently watching fl watch another literal
 // returns false if this is impossible, which means that all literals in a clause have
 // already been assigned flase.
-func (w Watchlist) Update(s SATInstance, fl int, assignment []int, verbose bool) bool {
+func (w Watchlist) Update(s satinstance.SATInstance, fl int, assignment []int, verbose bool) bool {
 
 	// continue as long as there are still clauses watching over fl
 	for {
@@ -54,7 +54,7 @@ func (w Watchlist) Update(s SATInstance, fl int, assignment []int, verbose bool)
 				// a == 0: alt is even, i.e. alt is true
 
 				// if alt is unassigned or true, we can watch it
-				if assignment[v] == NONE || assignment[v] == a^1 {
+				if assignment[v] == satinstance.NONE || assignment[v] == a^1 {
 					found = true
 
 					if len(w[fl]) > 1 {

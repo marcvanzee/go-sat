@@ -3,7 +3,6 @@ package satinstance
 import (
 	"bufio"
 	"fmt"
-	"github.com/marcvanzee/satsolver-go/watchlist"
 	"os"
 	"strings"
 )
@@ -17,10 +16,9 @@ const (
 )
 
 type SATInstance struct {
-	Vars      []string
-	Clauses   [][]int
-	VarTable  map[string]int
-	Watchlist Watchlist
+	Vars     []string
+	Clauses  [][]int
+	VarTable map[string]int
 }
 
 func NewSATInstance() SATInstance {
@@ -28,13 +26,12 @@ func NewSATInstance() SATInstance {
 		nil,
 		nil,
 		make(map[string]int),
-		make(map[int]([][]int)),
 	}
 }
 
 func (s SATInstance) String() string {
-	return fmt.Sprintf("variables: %v\nClauses: %v\nVariable_table: %v\nWatchlist: %v",
-		s.Vars, s.Clauses, s.VarTable, s.Watchlist)
+	return fmt.Sprintf("variables: %v\nClauses: %v\nVariable_table: %v\n",
+		s.Vars, s.Clauses, s.VarTable)
 }
 
 func (s *SATInstance) ParseLine(line string) {
@@ -84,7 +81,6 @@ func (s *SATInstance) Init(f *string) (err error) {
 	}
 
 	s.ParseFile(file)
-	s.Watchlist.Init(s.Clauses)
 
 	return nil
 }
@@ -111,6 +107,7 @@ func (s *SATInstance) ClauseToString(clause []int) string {
 }
 
 func (s *SATInstance) AssignmentToString(assignment []int, brief bool, starting_with string) string {
+	fmt.Println(len(assignment))
 	literals := make([]string, len(s.Vars))
 
 	for i, v := range s.Vars {
@@ -118,7 +115,8 @@ func (s *SATInstance) AssignmentToString(assignment []int, brief bool, starting_
 		if strings.Index(v, starting_with) == 0 {
 			if a == FALSE && !brief {
 				literals = append(literals, NOT+v)
-			} else if a == 1 {
+			} else if a == TRUE {
+				fmt.Println("ja! -> ", a)
 				literals = append(literals, v)
 			}
 		}

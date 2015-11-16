@@ -25,8 +25,8 @@ func exit(err error) {
 	// no error
 }
 
-func solve(s SATInstance, it bool, verbose bool) [][]int {
-	n := len(s.Variables)
+func solve(s satinstance.SATInstance, it bool, verbose bool) [][]int {
+	n := len(s.Vars)
 	watchlist := watchlist.NewWatchlist(s)
 
 	if len(watchlist) == 0 {
@@ -34,15 +34,14 @@ func solve(s SATInstance, it bool, verbose bool) [][]int {
 	}
 
 	assignment := make([]int, n, n)
+
 	for i := range assignment {
-		assignment[i] = None
+		assignment[i] = satinstance.NONE
 	}
 
-	if it {
-		return iterative_solver.solve(instance, watchlist, assignment, 0, verbose)
-	} else {
-		return recursive_solve.solve(instance, watchlist, assignment, 0, verbose)
-	}
+	ret := solvers.NewSolver(it).Solve(s, watchlist, assignment, 0, verbose)
+	fmt.Println("EUH", ret)
+	return ret
 }
 
 func main() {
@@ -50,7 +49,7 @@ func main() {
 
 	var err error
 
-	instance := NewSATInstance()
+	instance := satinstance.NewSATInstance()
 
 	defer func() { exit(err) }()
 
@@ -58,22 +57,22 @@ func main() {
 		return
 	}
 
-	assignments := solve(instance, iterative, verbose)
-
+	assignments := solve(instance, *iterative, *verbose)
+	fmt.Println("done: ", assignments)
 	count := 0
 
-	for assignment := range assignments {
-		if verbose {
-			fmt.Println("Found satisfying assignment #%d:")
-			fmt.Println(instance.AssignmentToString(assignment, brief, startingWith))
+	for _, assignment := range assignments {
+		if *verbose {
+			fmt.Printf("Found satisfying assignment #%v:\n", count)
+			fmt.Println(instance.AssignmentToString(assignment, *brief, *startingWith))
 		}
 		count += 1
-		if !allSolutions {
+		if !*allSolutions {
 			break
 		}
 	}
 
-	if verbose && count == 0 {
+	if *verbose && count == 0 {
 		fmt.Println("No satisfying assignment exists.")
 	}
 }
