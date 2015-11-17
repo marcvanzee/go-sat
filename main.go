@@ -13,7 +13,7 @@ var verbose = flag.Bool("verbose", true, "Verbose output")
 var allSolutions = flag.Bool("all", true, "Output all possible solutions")
 var brief = flag.Bool("brief", false, "Only output variables assigned true")
 var startingWith = flag.String("starting_with", "", "Only output variables with names starting with the given string")
-var iterative = flag.Bool("recursive", false, "Use recursive algorithm instead of iterative")
+var recursive = flag.Bool("recursive", false, "Use recursive algorithm instead of iterative")
 var file = flag.String("i", "", "Read from given file instead of stdin")
 
 func exit(err error) {
@@ -25,7 +25,7 @@ func exit(err error) {
 	// no error
 }
 
-func solve(s satinstance.SATInstance, it bool, verbose bool) [][]int {
+func solve(s satinstance.SATInstance) [][]int {
 	n := len(s.Vars)
 	watchlist := watchlist.NewWatchlist(s)
 
@@ -39,7 +39,7 @@ func solve(s satinstance.SATInstance, it bool, verbose bool) [][]int {
 		assignment[i] = satinstance.NONE
 	}
 
-	ret := solvers.NewSolver(it).Solve(s, watchlist, assignment, 0, verbose)
+	ret := solvers.NewSolver(*recursive).Solve(s, watchlist, assignment, 0, *verbose)
 
 	return ret
 }
@@ -57,7 +57,7 @@ func main() {
 		return
 	}
 
-	assignments := solve(instance, *iterative, *verbose)
+	assignments := solve(instance)
 	count := 0
 
 	for _, assignment := range assignments {
