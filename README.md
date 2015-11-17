@@ -1,6 +1,8 @@
 # go-sat: Simple Go SAT Solver
 
-A simple SAT solver that can either use a recursive or an iterative algorithm. The code is based on [Knuth's SAT0W program](http://www-cs-faculty.stanford.edu/~uno/programs.html). Much of the code is based on the Python implementation by sahands, which can be downloaded [here](https://github.com/sahands/simple-sat). He also wrote a nice explanatory article that can be viewed [here](http://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html).
+A simple SAT solver that can either use a recursive or an iterative algorithm. The algorithm uses a watchlist to keep track of all the assignments (see [Knuth's SAT0W program](http://www-cs-faculty.stanford.edu/~uno/programs.html)). 
+
+Much of the code is based on the Python implementation by sahands, which can be downloaded [here](https://github.com/sahands/simple-sat). He also wrote a nice explanatory article that can be viewed [here](http://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html).
 
 ### Installing
 
