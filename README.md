@@ -11,8 +11,8 @@ No additional packages are required. Get this package as follows:
 ### Input syntax:
 
 ```
-$ go run main.go -h                                                                                            
-  -all                                                                                                         
+$ go run main.go -h
+  -all
         Output all possible solutions (default true)                  
   -brief                                                              
         Only output variables assigned true                           
@@ -22,6 +22,6 @@ $ go run main.go -h
         Use recursive algorithm instead of iterative                
   -starting_with string                                               
         Only output variables with names starting with the given string
-  -verbose                                                               
+  -verbose                                          
         Verbose output (default true)              
 ```
