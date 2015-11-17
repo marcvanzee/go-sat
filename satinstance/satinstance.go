@@ -107,7 +107,6 @@ func (s *SATInstance) ClauseToString(clause []int) string {
 }
 
 func (s *SATInstance) AssignmentToString(assignment []int, brief bool, starting_with string) string {
-	fmt.Println(len(assignment))
 	literals := make([]string, len(s.Vars))
 
 	for i, v := range s.Vars {
@@ -116,7 +115,6 @@ func (s *SATInstance) AssignmentToString(assignment []int, brief bool, starting_
 			if a == FALSE && !brief {
 				literals = append(literals, NOT+v)
 			} else if a == TRUE {
-				fmt.Println("ja! -> ", a)
 				literals = append(literals, v)
 			}
 		}

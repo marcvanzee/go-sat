@@ -69,13 +69,11 @@ func (w Watchlist) Update(s satinstance.SATInstance, fl int, assignment []int, v
 
 			if !found {
 				if verbose {
+					fmt.Println("-- No literal to watch in clause", s.ClauseToString(clause))
 					fmt.Println("Current watchlist:",
 						w.String(s))
 					fmt.Println("Current assignment:",
 						s.AssignmentToString(assignment, false, ""))
-					fmt.Println("Clause",
-						s.ClauseToString(clause),
-						"contradicted")
 				}
 				return false
 			}

@@ -22,8 +22,12 @@ type RecursiveSolver struct{}
 type IterativeSolver struct{}
 
 func (r RecursiveSolver) Solve(s satinstance.SATInstance, w watchlist.Watchlist, ass []int, d int, verbose bool) [][]int {
+
 	if d == len(s.Vars) {
-		return [][]int{ass}
+		ret := make([][]int, 1)
+		ret[0] = make([]int, len(ass))
+		copy(ret[0], ass)
+		return ret
 	}
 
 	var ret [][]int
@@ -34,9 +38,7 @@ func (r RecursiveSolver) Solve(s satinstance.SATInstance, w watchlist.Watchlist,
 		}
 		ass[d] = a
 		if w.Update(s, (d<<1)|a, ass, verbose) {
-			sol := r.Solve(s, w, ass, d+1, verbose)
-
-			ret = append(ret, sol...)
+			ret = append(ret, r.Solve(s, w, ass, d+1, verbose)...)
 		}
 	}
 	ass[d] = satinstance.NONE
@@ -45,5 +47,5 @@ func (r RecursiveSolver) Solve(s satinstance.SATInstance, w watchlist.Watchlist,
 }
 
 func (i IterativeSolver) Solve(s satinstance.SATInstance, w watchlist.Watchlist, ass []int, d int, verbose bool) [][]int {
-	return [][]int{{1}, {2}}
+	return nil
 }
