@@ -27,3 +27,13 @@ $ go run main.go -h
   -verbose                                          
         Verbose output (default true)              
 ```
+
+The syntax for specifying a SAT problem is in [Conjunctive Normal Forms (CNF)](https://en.wikipedia.org/wiki/Conjunctive_normal_form). Each line represents a conjunct and consists of a sequence of literals separated by a space representing a disjunction of literals. Example:
+
+```
+a b c
+~b
+~c
+```
+
+Stands for (a OR b OR c) AND (NOT b) AND (NOT c), which has a single satisfying model, namely a=1, b=0, c=0.
