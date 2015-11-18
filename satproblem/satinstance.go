@@ -1,4 +1,4 @@
-package satinstance
+package satproblem
 
 import (
 	"bufio"
@@ -7,13 +7,8 @@ import (
 	"strings"
 )
 
+// Negated literals start with ~
 const NOT = "~"
-
-const (
-	NONE  = -1
-	FALSE = 0
-	TRUE  = 1
-)
 
 type SATInstance struct {
 	Vars     []string
@@ -34,6 +29,8 @@ func (s SATInstance) String() string {
 		s.Vars, s.Clauses, s.VarTable)
 }
 
+// this function is called by the input reader
+// it translates a line into a clause
 func (s *SATInstance) ParseLine(line string) {
 	clause := make([]int, 0, 10)
 
@@ -45,6 +42,7 @@ func (s *SATInstance) ParseLine(line string) {
 
 		variable := literal[negated:]
 
+		// if the variable does not yet exist, add it to the variable table
 		if _, ok := s.VarTable[variable]; !ok {
 			s.VarTable[variable] = len(s.Vars)
 			s.Vars = append(s.Vars, variable)
@@ -71,13 +69,20 @@ func (s *SATInstance) ParseFile(f *os.File) {
 	}
 }
 
-func (s *SATInstance) Init(f *string) (err error) {
+func (s *SATInstance) Init(f *string, verbose bool) (err error) {
 	file := os.Stdin
 	if *f != "" {
+		if verbose {
+			fmt.Println("Reading input from file ", *f)
+		}
 		file, err = os.Open(*f)
 		if err != nil {
 			return err
 		}
+	} else if verbose {
+		fmt.Println("Reading input from stdin.")
+		fmt.Println("Please enter literal in Conjunctive Normal Form, conjuncts separated by a newline and disjuncts separated by a space.")
+		fmt.Println("End with two newlines.")
 	}
 
 	s.ParseFile(file)

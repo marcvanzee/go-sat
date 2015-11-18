@@ -1,11 +1,37 @@
 package main
 
+/**
+* ===== GO-SAT - SIMPLE SAT SOLVER IN GO =====
+* == By Marc van Zee (marcvanzee@gmail.com) ==
+* ============================================
+* =     www.github.com/marcvanzee/go-sat/    =
+* =                                          =
+* ============================================
+*
+* View a more detailed explanation of this solver in Python:
+* http://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html
+*
+*
+* Run the SAT solver from here with optional arguments:
+* -all
+*       Output all possible solutions (default true)
+*  -brief
+*        Only output variables assigned true
+*  -i string
+*        Read from given file instead of stdin
+*  -recursive
+*        Use recursive algorithm instead of iterative
+*  -starting_with string
+*        Only output variables with names starting with the given string
+*  -verbose
+*        Verbose output (default true)
+ */
+
 import (
 	"flag"
 	"fmt"
-	"github.com/marcvanzee/satsolver-go/satinstance"
-	"github.com/marcvanzee/satsolver-go/solvers"
-	"github.com/marcvanzee/satsolver-go/watchlist"
+	"github.com/marcvanzee/go-solver/satproblem"
+	"github.com/marcvanzee/go-solver/solvers"
 	"os"
 )
 
@@ -25,21 +51,27 @@ func exit(err error) {
 	// no error
 }
 
-func solve(s satinstance.SATInstance) [][]int {
+func solve(s satproblem.SATInstance) [][]int {
+
 	n := len(s.Vars)
-	watchlist := watchlist.NewWatchlist(s)
+
+	// initialize the watchlist, where each clauses in the SATInstance initially
+	// watches it first literal
+	watchlist := satproblem.NewWatchlist(s)
 
 	if len(watchlist) == 0 {
 		return nil
 	}
 
+	// initially we do not assignment a truth value to any of the literals
 	assignment := make([]int, n, n)
 
 	for i := range assignment {
-		assignment[i] = satinstance.NONE
+		assignment[i] = satproblem.NONE
 	}
 
-	ret := solvers.NewSolver(*recursive).Solve(s, watchlist, assignment, 0, *verbose)
+	ret := solvers.NewSolver(*recursive).
+		Solve(s, watchlist, assignment, 0, *verbose)
 
 	return ret
 }
@@ -48,21 +80,24 @@ func main() {
 	flag.Parse()
 
 	var err error
-
-	instance := satinstance.NewSATInstance()
-
 	defer func() { exit(err) }()
 
-	if err := instance.Init(file); err != nil {
+	instance := satproblem.NewSATInstance()
+
+	// initalize tries to read from file, if file is empty it reads from stdin
+	if err := instance.Init(file, *verbose); err != nil {
 		return
 	}
 
+	// solve returns a slide of solution assignments,
+	// which assign truth values to literals
 	assignments := solve(instance)
-	count := 0
 
+	// print the assignments
+	count := 0
 	for _, assignment := range assignments {
 		if *verbose {
-			fmt.Printf("Found satisfying assignment #%v:\n", count)
+			fmt.Printf("Found satisfying assignment #%v: ", count)
 			fmt.Println(instance.AssignmentToString(assignment, *brief, *startingWith))
 		}
 		count += 1
