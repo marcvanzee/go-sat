@@ -21,7 +21,7 @@ Please see [README.md](README.md) for more details.
 ```
 RuntimeError('third_party/tensorflow/lite/kernels/concatenation.cc:158 t->dims->data[d] != t0->dims->data[d] (3 != 1)Node number 11 (CONCATENATION) failed to prepare.Node number 29 (WHILE) failed to invoke.')
 ```
-## Error trace: model=flax/bilstm, converter=jax2tf_to_tflite)
+## Error trace: model=flax/bilstm, converter=jax2tf_to_tflite
 ```
 InvalidArgumentError()
 ```
