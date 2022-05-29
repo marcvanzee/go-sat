@@ -9,11 +9,11 @@ Please see [README.md](README.md) for more details.
 
 | Example | jax2tf_to_tfjs |
 | --- | --- |
-| flax/transformer_lm1b | [NO](##example-flaxtransformer_lm1b-converter-jax2tf_to_tfjs) |
+| flax/transformer_lm1b | [NO](#error-trace-modelflaxtransformer_lm1b-converterjax2tf_to_tfjs) |
 
 ## Errors
 
-## Example: flax/transformer_lm1b, Converter: jax2tf_to_tfjs
+## Error trace: model=flax/transformer_lm1b, converter=jax2tf_to_tfjs
 ```
 ValueError("in user code:
 
