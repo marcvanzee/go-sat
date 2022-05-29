@@ -12,7 +12,7 @@ Please see [README.md](README.md) for more details.
 | flax/actor_critic | YES | YES | YES |
 | flax/bilstm | YES | YES | [NO](#Example:-flax/bilstm,-Converter:-jax2tf_to_tflite) | 
 | flax/resnet50 | YES | YES | YES |
-| flax/transformer_lm1b | [NO](#Example:-flax/transformer_lm1b,-Converter:-jax2tf_xla) |  [NO](#Example:-flax/transformer_lm1b,-Converter:-jax2tf_to_tfjs) |  [NO](#Example:-flax/transformer_lm1b,-Converter:-jax2tf_to_tflite) | 
+| flax/transformer_lm1b | [NO](#error-trace-modelflaxbilstm-con-verterjax2tf_to_tflite) |  [NO](#Example:-flax/transformer_lm1b,-Converter:-jax2tf_to_tfjs) |  [NO](#Example:-flax/transformer_lm1b,-Converter:-jax2tf_to_tflite) | 
 | flax/cnn | YES | YES | YES |
 
 ## Errors
